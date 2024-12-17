@@ -1,10 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const pangea = require('pangea-node-sdk');
 
-const token = core.getInput('token');
-const config = new pangea.PangeaConfig({ domain: core.getInput('domain')});
-const audit = new pangea.AuditService(token, config);
 const context = github.context;
 
 // most @actions toolkit packages have async methods
@@ -18,16 +14,13 @@ async function run() {
   };
 
   try{
-    core.info('Message text to be logged: '+data.message);
-    const logResponse = await audit.log(data, {verbose: true});
-    core.info('Response: '+JSON.stringify(logResponse.result));
-    core.setOutput('results', logResponse.result);
-  } catch (err) {
-    if (err instanceof pangea.PangeaErrors.APIError) {
-      core.setFailed(err.summary, err.pangeaResponse);
-    } else {
+    core.info('Package to be tested: '+data.message);
+    const myRe = new RegExp("from '"+data.message+"'", "g");
+    const aiMatch = await myRe.test("This is example text to see if our search for from 'langchain' is working");
+    core.info('Response: '+aiMatch);
+    core.setOutput('results', aiMatch);
+  } catch (err) {   
       core.setFailed(err);
     }
-  }
 }
 run();
