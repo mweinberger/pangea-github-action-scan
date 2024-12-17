@@ -1,17 +1,11 @@
-name: 'Log to Pangea'
-description: 'Write a new entry into Pangea Secure Audit Log'
+name: 'Scan for LLM Code'
+description: 'Check for LLM Usage'
 branding: 
   icon: archive
   color: purple
 inputs:
   text:
-    description: 'Text to pass into the message field'
-    required: true
-  domain:
-    description: 'Pangea Domain'
-    required: true
-  token:
-    description: 'Pangea Token with access to Secure Audit Log Service'
+    description: 'LLM package to search for'
     required: true
 outputs:
   http_response:
