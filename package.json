@@ -9,26 +9,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pangeacyber/pangea-github-action-audit.git"
+    "url": "git+https://github.com/pangeacyber/pangea-github-action-scan.git"
   },
   "keywords": [
     "GitHub",
     "Actions",
     "JavaScript",
     "Pangea",
-    "Audit-Log"
+    "AI"
   ],
   "author": "Pangea",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pangeacyber/pangea-github-action-audit/issues"
+    "url": "https://github.com/pangeacyber/pangea-github-action-scan/issues"
   },
-  "homepage": "https://github.com/pangeacyber/pangea-github-action-audit#readme",
+  "homepage": "https://github.com/pangeacyber/pangea-github-action-scan#readme",
   "dependencies": {
     "@actions/core": "1.11.1",
     "@actions/github": "^6.0.0",
-    "ncc": "^0.3.6",
-    "pangea-node-sdk": "^4.1.0"
+    "ncc": "^0.3.6"
   },
   "devDependencies": {
     "@vercel/ncc": "0.38.3"

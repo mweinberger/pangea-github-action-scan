@@ -1,36 +1,20 @@
-# Log text to Pangea Secure Audit Log
+# Pangea LLM Code Scan
 example were testing from 'langchain'
-Use this action to log text to the Pangea Secure Audit log service.
-To use this action, a Pangea account is required.
-
-To get a Pangea account [Sign up for free](https://l.pangea.cloud/GitHubActionsAuditRepo)
-
-## How it works
-
-Pangea is a collection of security services, all API-based, that can quickly and easily be added to any cloud application, embedded in the runtime code. 
-Pangea provides app builders with a wide selection of security services to enable easily embedding security into their applications. 
-Similar in nature to AWS for Compute APIs, Twilio for Communications APIs, or Stripe for Billing APIs, now there is Pangea for Security APIs.
-
-## Set up Pangea
-
-To configure Pangea:
-
-1. Configure Pangea Secure Audit Log following [the configuration guide](https://l.pangea.cloud/GitHubActionsAuditRepo-configure).
-2. When you create your token in the guide, make sure it has access to Secure Audit Log
-3. Save your Pangea token and Pangea domain as secrets in your github repo /settings/secrets/actions
-
+Use this action to run regex and detect AI/LLM package imports without AI/LLM security imports
 ## Inputs
 
-There are three required input parameters:
-1. The text to pass to the message field of the Pangea Secure Audit Log entry
-2. The Pangea token that has access to the Pangea Secure Audit Log service
-3. The Pangea domain for your pangea Secure Audit Log service
+There are two required input parameters:
+1. Matrix of AI/LLM package imports
+2. Matrix of AI/LLM security package imports
 
 ```yml
+matrix:
+        AI: ["openai","langchain", "@cloudflare/workers-ai", "@aws-sdk/client-bedrock", "@huggingface/transformers", "cohere-ai", "anthropic", "stability-ai", "@pinecone-database/pinecone", "@vercel/ai", "grok-js", "@google/gemini"]
+
+...
+
 with:
-  text: "New pull request was opened for ${{github.repository}}"
-  token: ${{secrets.PANGEA_TOKEN}}
-  domain: ${{secrets.PANGEA_DOMAIN}}
+        text: ${{matrix.AI}}
 ```
 
 ## Usage
@@ -38,19 +22,21 @@ with:
 Minimal example
 
 ```yml
-name: "Log Pull Request"
+name: "scan-on-pull"
 on:
   pull_request_target:
     types: [opened]
 jobs:
-  test:
+  testforLLM:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        AI: ["openai","langchain", "@cloudflare/workers-ai", "@aws-sdk/client-bedrock", "@huggingface/transformers", "cohere-ai", "anthropic", "stability-ai", "@pinecone-database/pinecone", "@vercel/ai", "grok-js", "@google/gemini"]
     steps:
-    - uses: pangeacyber/pangea-github-action-audit@1.0.1
+    - uses: actions/checkout@v4
+    - uses: ./
       with:
-        text: "New pull request was opened for ${{github.repository}}"
-        token: ${{secrets.PANGEA_TOKEN}}
-        domain: ${{secrets.PANGEA_DOMAIN}}
+        text: ${{matrix.AI}}
 ```
 
 ## License

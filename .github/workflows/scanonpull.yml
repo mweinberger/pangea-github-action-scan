@@ -1,7 +1,7 @@
-name: "test-on-issue"
+name: "scan-on-pull"
 on:
-  issues:
-    types: [opened, closed, reopened]
+  pull_request_target:
+    types: [opened]
 jobs:
   testforLLM:
     runs-on: ubuntu-latest
