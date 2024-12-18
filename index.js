@@ -28,12 +28,12 @@ async function searchFilesRecursively(directory, regex) {
 // most @actions toolkit packages have async methods
 async function run() {
 
+  const data = core.getInput('text')
+  
   try {
-    core.info('Package to be tested: ' + data.message);
-    const myRe = new RegExp("from '" + data.message + "'", "g");
-
+    core.info('Package to be tested: ' + data);
+    const myRe = new RegExp("from '" + data + "'", "g");
     const response = await searchFilesRecursively(".", myRe);
-
     core.info('Response: ' + response);
     core.setOutput('results', response);
   } catch (err) {
