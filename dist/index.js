@@ -31837,13 +31837,15 @@ async function run() {
   try{
     core.info('Package to be tested: '+data.message);
     const myRe = new RegExp("from '"+data.message+"'", "g");
-    const files = await (0,promises_namespaceObject.readdir)("./");
+    const files = (0,promises_namespaceObject.readdir)("./");
     const response = false
-    for (const file of files)
+    for (const file of files) {
       console.log(file);
-      const aiMatch = await myRe.test(file);
+      const aiMatch = myRe.test(file);
       if (aiMatch){
-        response = true}
+        response = true;
+      }
+    }
     core.info('Response: '+response);
     core.setOutput('results', response);
   } catch (err) {   
