@@ -10,7 +10,41 @@ jobs:
         AI: ["openai","langchain", "@cloudflare/workers-ai", "@aws-sdk/client-bedrock", "@huggingface/transformers", "cohere-ai", "anthropic", "stability-ai", "@pinecone-database/pinecone", "@vercel/ai", "grok-js", "@google/gemini"]
     steps:
     - uses: actions/checkout@v4
-    - uses: ./
       with:
         text: ${{matrix.AI}}
-    
+    run: |
+        const core = require('@actions/core');
+        const github = require('@actions/github');
+        const fs = require('fs/promises');
+        const context = github.context;
+        async function searchFilesRecursively(directory, regex) {
+          const files = await fs.readdir(directory, { withFileTypes: true });
+          for (const file of files) {
+            console.log(file);
+            const filePath = `${directory}/${file.name}`;
+
+            if (file.isDirectory()) {
+              await searchFilesRecursively(filePath, regex);
+            } else {
+              const fileContent = await fs.readFile(filePath, 'utf-8');
+              if (regex.test(fileContent)) {
+                return true;
+              }
+            }
+          }
+          return false;
+        }
+
+        async function run() {
+          const data = core.getInput('text')
+          try {
+            core.info('Package to be tested: ' + data);
+            const myRe = new RegExp("from '" + data + "'", "g");
+            const response = await searchFilesRecursively(".", myRe);
+            core.info('Response: ' + response);
+            core.setOutput('results', response);
+          } catch (err) {
+            core.setFailed(err);
+          }
+        }
+        run();
