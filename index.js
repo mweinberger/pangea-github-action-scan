@@ -19,7 +19,7 @@ async function run() {
     const myRe = new RegExp("from '"+data.message+"'", "g");
     const files = readdir("./");
     const response = false
-    for (const file of files) {
+    for (const file in files) {
       console.log(file);
       const aiMatch = myRe.test(file);
       if (aiMatch){
