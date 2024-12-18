@@ -31811,8 +31811,16 @@ module.exports = parseParams
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+
+;// CONCATENATED MODULE: external "node:fs/promises"
+const promises_namespaceObject = require("node:fs/promises");
+;// CONCATENATED MODULE: ./index.js
 const core = __nccwpck_require__(7484);
 const github = __nccwpck_require__(3228);
+
 
 const context = github.context;
 
@@ -31829,14 +31837,22 @@ async function run() {
   try{
     core.info('Package to be tested: '+data.message);
     const myRe = new RegExp("from '"+data.message+"'", "g");
-    const aiMatch = await myRe.test("This is example text to see if our search for from 'langchain' is working");
-    core.info('Response: '+aiMatch);
-    core.setOutput('results', aiMatch);
+    const files = await (0,promises_namespaceObject.readdir)("./");
+    const response = False
+    for (const file of files)
+      console.log(file);
+      const aiMatch = await myRe.test(file);
+      if (aiMatch){
+        response = True}
+    core.info('Response: '+response);
+    core.setOutput('results', response);
   } catch (err) {   
       core.setFailed(err);
     }
 }
 run();
+
+})();
 
 module.exports = __webpack_exports__;
 /******/ })()
