@@ -17,9 +17,9 @@ async function run() {
   try{
     core.info('Package to be tested: '+data.message);
     const myRe = new RegExp("from '"+data.message+"'", "g");
-    const files = await readdir("./");
+    const files = readdir("./");
     const response = false
-    for (const file of files){
+    for (const file of files) {
       console.log(file);
       const aiMatch = myRe.test(file);
       if (aiMatch){
