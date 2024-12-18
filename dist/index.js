@@ -31824,36 +31824,43 @@ const github = __nccwpck_require__(3228);
 
 const context = github.context;
 
-// most @actions toolkit packages have async methods
-async function run() {
-  const data = {
-    action: context.action,
-    actor: context.actor,
-    target: context.eventName,
-    message: core.getInput('text'),
-    source: "GitHub Workflow Job: "+context.workflow +"/"+context.job,
-  };
 
-  try{
-    core.info('Package to be tested: '+data.message);
-    const myRe = new RegExp("from '"+data.message+"'", "g");
-    const files = await (0,promises_namespaceObject.readdir)("./");
-    const response = false
-    for (const file of files) {
-      console.log(file);
-      const aiMatch = myRe.test(file);
-      if (aiMatch){
-        response = true;
+async function searchFilesRecursively(directory, regex) {
+  const files = await (0,promises_namespaceObject.readdir)(directory, { withFileTypes: true });
+
+  for (const file of files) {
+    const filePath = `${directory}/${file.name}`;
+
+    if (file.isDirectory()) {
+      await searchFilesRecursively(filePath, regex);
+    } else {
+      const fileContent = await fs.readFile(filePath, 'utf-8');
+      if (regex.test(fileContent)) {
+        return true;
       }
     }
-    core.info('Response: '+response);
+  }
+
+  return false;
+}
+
+
+// most @actions toolkit packages have async methods
+async function run() {
+
+  try {
+    core.info('Package to be tested: ' + data.message);
+    const myRe = new RegExp("from '" + data.message + "'", "g");
+
+    const response = await searchFilesRecursively(".", myRe);
+
+    core.info('Response: ' + response);
     core.setOutput('results', response);
-  } catch (err) {   
-      core.setFailed(err);
-    }
+  } catch (err) {
+    core.setFailed(err);
+  }
 }
 run();
-
 })();
 
 module.exports = __webpack_exports__;
