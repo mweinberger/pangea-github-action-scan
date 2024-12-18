@@ -31827,7 +31827,7 @@ const context = github.context;
 
 
 async function searchFilesRecursively(directory, regex) {
-  const files = await readdir(directory, { withFileTypes: true });
+  const files = await fs.readdir(directory, { withFileTypes: true });
 
   for (const file of files) {
     const filePath = `${directory}/${file.name}`;
