@@ -3,54 +3,13 @@ on:
   issues:
     types: [opened, closed, reopened]
 jobs:
-  test:
+  testforLLM:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node:["openai","langchain", "@cloudflare/workers-ai", "@aws-sdk/client-bedrock", "@huggingface/transformers", "cohere-ai", "anthropic", "stability-ai", "@pinecone-database/pinecone", "@vercel/ai", "grok-js", "@google/gemini"]
     steps:
     - uses: actions/checkout@v4
     - uses: ./
       with:
-        text: "openai"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "langchain"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "@cloudflare/workers-ai"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "@aws-sdk/client-bedrock"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "@huggingface/transformers"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "cohere-ai"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "anthropic"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "stability-ai"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "@pinecone-database/pinecone"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "@vercel/ai"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "grok-js"
-    - uses: actions/checkout@v4
-    - uses: ./
-      with:
-        text: "@google/gemini"
+        text: ${{matrix.node}}
