@@ -12,6 +12,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         text: ${{matrix.AI}}
+    - name: Check for LLM issues in code
       run: |
           const core = require('@actions/core');
           const github = require('@actions/github');
