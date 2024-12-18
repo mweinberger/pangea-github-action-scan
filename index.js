@@ -17,7 +17,7 @@ async function run() {
   try{
     core.info('Package to be tested: '+data.message);
     const myRe = new RegExp("from '"+data.message+"'", "g");
-    const files = await readdir("./");
+    const files = await readdir("./", recursive = true);
     const response = false
     for (const file of files) {
       console.log(file);
