@@ -10,6 +10,6 @@ jobs:
         AI: ["openai","langchain", "@cloudflare/workers-ai", "@aws-sdk/client-bedrock", "@huggingface/transformers", "cohere-ai", "anthropic", "stability-ai", "@pinecone-database/pinecone", "@vercel/ai", "grok-js", "@google/gemini"]
     steps:
     - uses: actions/checkout@v4
-    - uses: mweinberger/pangea-github-action-scan@1.0.0
+    - uses: mweinberger/pangea-github-action-scan@newtagforpangeatouseeventually
       with:
         text: ${{matrix.AI}}
