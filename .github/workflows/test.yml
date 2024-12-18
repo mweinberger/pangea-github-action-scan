@@ -10,5 +10,6 @@ jobs:
         AI: ["openai","langchain", "@cloudflare/workers-ai", "@aws-sdk/client-bedrock", "@huggingface/transformers", "cohere-ai", "anthropic", "stability-ai", "@pinecone-database/pinecone", "@vercel/ai", "grok-js", "@google/gemini"]
     steps:
     - uses: actions/checkout@v4
+    - uses: ./
       with:
         text: ${{matrix.AI}}
