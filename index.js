@@ -24,8 +24,6 @@ async function searchFilesRecursively(directory, regex) {
   return false;
 }
 
-
-// most @actions toolkit packages have async methods
 async function run() {
 
   const data = core.getInput('text')
