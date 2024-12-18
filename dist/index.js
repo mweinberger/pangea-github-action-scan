@@ -29979,6 +29979,14 @@ module.exports = require("fs");
 
 /***/ }),
 
+/***/ 1943:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("fs/promises");
+
+/***/ }),
+
 /***/ 8611:
 /***/ ((module) => {
 
@@ -31811,22 +31819,15 @@ module.exports = parseParams
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-
-;// CONCATENATED MODULE: external "node:fs/promises"
-const promises_namespaceObject = require("node:fs/promises");
-;// CONCATENATED MODULE: ./index.js
 const core = __nccwpck_require__(7484);
 const github = __nccwpck_require__(3228);
-
+const fs = __nccwpck_require__(1943);
 
 const context = github.context;
 
 
 async function searchFilesRecursively(directory, regex) {
-  const files = await (0,promises_namespaceObject.readdir)(directory, { withFileTypes: true });
+  const files = await readdir(directory, { withFileTypes: true });
 
   for (const file of files) {
     const filePath = `${directory}/${file.name}`;
@@ -31849,7 +31850,7 @@ async function searchFilesRecursively(directory, regex) {
 async function run() {
 
   const data = core.getInput('text')
-  
+
   try {
     core.info('Package to be tested: ' + data);
     const myRe = new RegExp("from '" + data + "'", "g");
@@ -31861,8 +31862,6 @@ async function run() {
   }
 }
 run();
-})();
-
 module.exports = __webpack_exports__;
 /******/ })()
 ;

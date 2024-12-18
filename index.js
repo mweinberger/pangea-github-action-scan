@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-import { readdir } from 'node:fs/promises';
+const fs = require('fs/promises');
 
 const context = github.context;
 
@@ -29,7 +29,7 @@ async function searchFilesRecursively(directory, regex) {
 async function run() {
 
   const data = core.getInput('text')
-  
+
   try {
     core.info('Package to be tested: ' + data);
     const myRe = new RegExp("from '" + data + "'", "g");
