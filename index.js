@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+import { readdir } from 'node:fs/promises';
 
 const context = github.context;
 
@@ -16,9 +17,15 @@ async function run() {
   try{
     core.info('Package to be tested: '+data.message);
     const myRe = new RegExp("from '"+data.message+"'", "g");
-    const aiMatch = await myRe.test("This is example text to see if our search for from 'langchain' is working");
-    core.info('Response: '+aiMatch);
-    core.setOutput('results', aiMatch);
+    const files = await readdir("./");
+    const response = False
+    for (const file of files)
+      console.log(file);
+      const aiMatch = await myRe.test(file);
+      if (aiMatch){
+        response = True}
+    core.info('Response: '+response);
+    core.setOutput('results', response);
   } catch (err) {   
       core.setFailed(err);
     }
