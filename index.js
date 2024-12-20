@@ -23,8 +23,7 @@ async function searchFilesRecursively(directory, regex, locations) {
               "uri": filePath
             },
             "region": {
-              "startLine": 0,
-              "endLine": 0,
+              "startLine": 1,
             }
           }
         }
