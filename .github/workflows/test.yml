@@ -13,3 +13,7 @@ jobs:
     - uses: mweinberger/pangea-github-action-scan@newtagforpangeatouseeventually
       with:
         text: ${{matrix.AI}}
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: results.sarif
