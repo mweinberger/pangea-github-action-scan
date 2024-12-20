@@ -12,7 +12,6 @@ async function searchFilesRecursively(directory, regex, locations) {
     if (file.isDirectory()) {
       await searchFilesRecursively(filePath, regex, locations);
     } else {
-      names.push(filePath);
       const fileContent = await fs.readFile(filePath, 'utf-8');
       const matches = fileContent.matchAll(regex)
       for (const match of matches) {
