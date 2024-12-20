@@ -5,7 +5,7 @@ branding:
   color: purple
 inputs:
   text:
-    description: 'LLM package to search for'
+    description: 'LLM packages to search for'
     required: true
 outputs:
   http_response:

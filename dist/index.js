@@ -31859,7 +31859,6 @@ async function searchFilesRecursively(directory, regex) {
 
 async function run() {
 
-  const data = core.getInput('text')
   const sarif = {
     "$schema": "https://raw.githubusercontent.com/oasis-open/sarif/master/schema/2.1.0/sarif-schema-2.1.0.json",
     "version": "2.1.0",
@@ -31872,29 +31871,33 @@ async function run() {
             "version": "1.0.0"
           }
         },
-        "results": [
-          {
-            "ruleId": "LLM_SECURITY",
-            "message": "LLM code found without security measures.",
-            "kind": "warning",
-            "level": "warning",
-            "locations": []
-          }
-        ]
+        "results": []
       }
     ]
+  };
+
+  const data = core.getInput('text')
+  const output = {};
+  for (llm of data) {
+    
+    try {
+      core.info('Package to be tested: ' + llm);
+      const myRe = new RegExp("from '" + llm + "'", "g");
+      const response = await searchFilesRecursively(".", myRe);
+      sarif.runs[0].results.push({
+        "ruleId": "LLM_SECURITY",
+        "message": "LLM code found without security measures. Detection was: " + llm,
+        "kind": "warning",
+        "level": "warning",
+        "locations": response
+      });
+      core.info('Response: ' + sarif);
+    } catch (err) {
+      core.setFailed(err);
+    }
   }
-  try {
-    core.info('Package to be tested: ' + data);
-    const myRe = new RegExp("from '" + data + "'", "g");
-    const response = await searchFilesRecursively(".", myRe);
-    sarif.runs[0].results[0].locations = response;
-    core.info('Response: ' + sarif);
-    core.setOutput('results', sarif);
-    fs.writeFile('results.sarif', JSON.stringify(sarif));
-  } catch (err) {
-    core.setFailed(err);
-  }
+  fs.writeFile('results.sarif', JSON.stringify(sarif));
+  core.setOutput('results', sarif);
 }
 run();
 module.exports = __webpack_exports__;
