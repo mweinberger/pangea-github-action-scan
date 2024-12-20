@@ -56,6 +56,7 @@ async function run() {
   };
 
   const data = core.getInput('text').split(',');
+  core.info('Data: ' + data);
   for (llm of data) {
     
     try {
