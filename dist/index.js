@@ -31826,15 +31826,12 @@ const fs = __nccwpck_require__(1943);
 const context = github.context;
 
 
-async function searchFilesRecursively(directory, regex) {
+async function searchFilesRecursively(directory, regex, locations) {
   const files = await fs.readdir(directory, { withFileTypes: true });
-  const locations = [];
-  const names = [];
-
   for (const file of files) {
     const filePath = `${directory}/${file.name}`;
     if (file.isDirectory()) {
-      await searchFilesRecursively(filePath, regex);
+      await searchFilesRecursively(filePath, regex, locations);
     } else {
       names.push(filePath);
       const fileContent = await fs.readFile(filePath, 'utf-8');
@@ -31855,7 +31852,6 @@ async function searchFilesRecursively(directory, regex) {
       )};
     }
   }
-  console.log("checked: " + JSON.stringify(names));
   return locations;
 }
 
@@ -31885,7 +31881,8 @@ async function run() {
     try {
       core.info('Package to be tested: ' + llm);
       const myRe = new RegExp("from '" + llm + "'", "g");
-      const response = await searchFilesRecursively(".", myRe);
+      const locations = [];
+      const response = await searchFilesRecursively(".", myRe, locations);
       sarif.runs[0].results.push({
         "ruleId": "LLM_SECURITY",
         "message": "LLM code found without security measures. Detection was: " + llm,
