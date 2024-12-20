@@ -56,7 +56,7 @@ async function run() {
   };
 
   const data = core.getInput('text').split(',');
-  for (llm in data) {
+  for (llm of data) {
     
     try {
       core.info('Package to be tested: ' + llm);
