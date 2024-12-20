@@ -31882,13 +31882,15 @@ async function run() {
       const myRe = new RegExp("from '" + llm + "'", "g");
       const locations = [];
       const response = await searchFilesRecursively(".", myRe, locations);
-      sarif.runs[0].results.push({
-        "ruleId": "LLM_SECURITY",
-        "message": "LLM code found without security measures. Detection was: " + llm,
-        "kind": "warning",
-        "level": "warning",
-        "locations": response
-      });
+      if (response) {
+        sarif.runs[0].results.push({
+          "ruleId": "LLM_SECURITY",
+          "message": "LLM code found without security measures. Detection was: " + llm,
+          "kind": "warning",
+          "level": "warning",
+          "locations": response
+        });
+      }
     } catch (err) {
       core.setFailed(err);
     }
