@@ -10,7 +10,7 @@ jobs:
     - uses: ./
       with:
         text: "'openai','langchain', '@cloudflare/workers-ai', '@aws-sdk/client-bedrock', '@huggingface/transformers', 'cohere-ai', 'anthropic', 'stability-ai', '@pinecone-database/pinecone', '@vercel/ai', 'grok-js', '@google/gemini'"
-#    - name: Upload SARIF file
-#      uses: github/codeql-action/upload-sarif@v3
-#      with:
-#        sarif_file: results.sarif
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: results.sarif

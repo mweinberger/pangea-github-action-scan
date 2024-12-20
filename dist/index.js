@@ -31897,7 +31897,7 @@ async function run() {
     }
   }
   fs.writeFile('results.sarif', JSON.stringify(sarif));
-  core.setOutput('results', sarif);
+  core.setOutput('results', JSON.stringify(sarif));
 }
 run();
 module.exports = __webpack_exports__;
