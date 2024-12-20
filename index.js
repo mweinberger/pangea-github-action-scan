@@ -15,6 +15,7 @@ async function searchFilesRecursively(directory, regex, locations) {
       const fileContent = await fs.readFile(filePath, 'utf-8');
       const matches = fileContent.matchAll(regex)
       for (const match of matches) {
+        console.log(`Match found in file ${filePath}`);
         locations.push(
         {
           "physicalLocation": {
@@ -61,7 +62,7 @@ async function run() {
       const myRe = new RegExp("from '" + llm + "'", "g");
       const locations = [];
       const response = await searchFilesRecursively(".", myRe, locations);
-      if (response) {
+      if (response.length > 0) {
         sarif.runs[0].results.push({
           "ruleId": "LLM_SECURITY",
           "message": "LLM code found without security measures. Detection was: " + llm,
