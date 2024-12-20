@@ -8,13 +8,14 @@ const context = github.context;
 async function searchFilesRecursively(directory, regex) {
   const files = await fs.readdir(directory, { withFileTypes: true });
   const locations = [];
+  const names = [];
 
   for (const file of files) {
     const filePath = `${directory}/${file.name}`;
     if (file.isDirectory()) {
       await searchFilesRecursively(filePath, regex);
     } else {
-      console.log("checking " + filePath);
+      names.push(filePath);
       const fileContent = await fs.readFile(filePath, 'utf-8');
       const matches = fileContent.matchAll(regex)
       for (const match of matches) {
@@ -33,6 +34,7 @@ async function searchFilesRecursively(directory, regex) {
       )};
     }
   }
+  console.log("checked: " + JSON.stringify(names));
   return locations;
 }
 
@@ -70,11 +72,11 @@ async function run() {
         "level": "warning",
         "locations": response
       });
-      core.info('Response: ' + sarif);
     } catch (err) {
       core.setFailed(err);
     }
   }
+  core.info('Response: ' + JSON.stringify(sarif));
   fs.writeFile('results.sarif', JSON.stringify(sarif));
   core.setOutput('results', JSON.stringify(sarif));
 }
