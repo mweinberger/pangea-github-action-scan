@@ -31830,9 +31830,9 @@ async function searchFilesRecursively(directory, regex) {
   const files = await fs.readdir(directory, { withFileTypes: true });
 
   for (const file of files) {
-    console.log(file);
+    console.log("checking " + file.name);
     const filePath = `${directory}/${file.name}`;
-    const locations = []
+    const locations = [];
     if (file.isDirectory()) {
       await searchFilesRecursively(filePath, regex);
     } else {
