@@ -64,8 +64,8 @@ async function run() {
       if (response.length > 0) {
         sarif.runs[0].results.push({
           "ruleId": "LLM_SECURITY",
-          "message": "LLM code found without security measures. Detection was: " + llm,
-          "kind": "warning",
+          "message": {"text":"LLM code found without security measures. Detection was: " + llm},
+          "kind": "review",
           "level": "warning",
           "locations": response
         });
@@ -74,8 +74,14 @@ async function run() {
       core.setFailed(err);
     }
   }
-  core.info('Response: ' + JSON.stringify(sarif));
-  fs.writeFile('results.sarif', JSON.stringify(sarif));
-  core.setOutput('results', JSON.stringify(sarif));
+  if (sarif.runs[0].results.length > 0) {
+    core.info('Response: ' + JSON.stringify(sarif));
+    fs.writeFile('results.sarif', JSON.stringify(sarif));
+    core.setOutput('results', JSON.stringify(sarif));
+  }
+  else {
+    core.info('No vulnerabilities found');
+    core.setOutput('results', 'No vulnerabilities found');
+  }
 }
 run();
