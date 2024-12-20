@@ -31828,14 +31828,14 @@ const context = github.context;
 
 async function searchFilesRecursively(directory, regex) {
   const files = await fs.readdir(directory, { withFileTypes: true });
+  const locations = [];
 
   for (const file of files) {
-    console.log("checking " + file.name);
     const filePath = `${directory}/${file.name}`;
-    const locations = [];
     if (file.isDirectory()) {
       await searchFilesRecursively(filePath, regex);
     } else {
+      console.log("checking " + filePath);
       const fileContent = await fs.readFile(filePath, 'utf-8');
       const matches = fileContent.matchAll(regex)
       for (const match of matches) {
