@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v4
     - uses: mweinberger/pangea-github-action-scan@newtagforpangeatouseeventually
       with:
-        text: ["openai","langchain", "@cloudflare/workers-ai", "@aws-sdk/client-bedrock", "@huggingface/transformers", "cohere-ai", "anthropic", "stability-ai", "@pinecone-database/pinecone", "@vercel/ai", "grok-js", "@google/gemini"]
+        text: "'openai','langchain', '@cloudflare/workers-ai', '@aws-sdk/client-bedrock', '@huggingface/transformers', 'cohere-ai', 'anthropic', 'stability-ai', '@pinecone-database/pinecone', '@vercel/ai', 'grok-js', '@google/gemini'"
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v3
       with:
